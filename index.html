@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0f0f0f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Repertoire">
+  <title>Guitar Repertoire</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --surface2: #242424;
+      --surface3: #2e2e2e;
+      --accent: #e8c547;
+      --accent-dim: #b89930;
+      --text: #f0f0f0;
+      --text-dim: #888;
+      --text-muted: #555;
+      --danger: #e74c3c;
+      --green: #2ecc71;
+      --blue: #3498db;
+      --orange: #e67e22;
+      --border: #2a2a2a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100%;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--surface);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+    }
+    .header-title { font-size: 17px; font-weight: 700; color: var(--accent); }
+    .header-sub { font-size: 13px; color: var(--text-dim); }
+    .back-btn {
+      background: none; border: none; color: var(--accent);
+      font-size: 15px; cursor: pointer; padding: 4px 0;
+      display: flex; align-items: center; gap: 5px;
+    }
+
+    /* ── Search & Filters ── */
+    .search-wrap {
+      padding: 12px 16px 8px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .search-input {
+      width: 100%; background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text); padding: 10px 14px; border-radius: 10px;
+      font-size: 15px; outline: none;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .filter-row {
+      display: flex; gap: 7px; padding: 8px 16px 10px;
+      overflow-x: auto; scrollbar-width: none;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+    }
+    .filter-row::-webkit-scrollbar { display: none; }
+    .chip {
+      padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--text-dim); cursor: pointer; white-space: nowrap; transition: all 0.15s;
+    }
+    .chip.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+    /* ── Song List ── */
+    .song-list { padding: 12px 14px 90px; }
+    .song-card {
+      background: var(--surface); border-radius: 12px; padding: 14px 15px;
+      margin-bottom: 9px; cursor: pointer; border: 1px solid var(--border);
+      transition: border-color 0.15s, transform 0.1s;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .song-card:active { border-color: var(--accent); transform: scale(0.99); }
+    .song-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .song-card-title { font-size: 16px; font-weight: 600; line-height: 1.2; }
+    .song-card-artist { font-size: 13px; color: var(--text-dim); margin-top: 2px; }
+    .song-card-bottom { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    /* ── Badges ── */
+    .badge {
+      font-size: 11px; font-weight: 700; padding: 3px 9px;
+      border-radius: 12px; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap;
+    }
+    .badge-not-started { background: #2a2a2a; color: var(--text-muted); }
+    .badge-learning { background: #3a1f00; color: var(--orange); }
+    .badge-can-play { background: #0a2030; color: var(--blue); }
+    .badge-perf-ready { background: #082a18; color: var(--green); }
+    .badge-key {
+      font-size: 12px; color: var(--text-dim); background: var(--surface2);
+      padding: 3px 9px; border-radius: 10px;
+    }
+
+    /* ── Difficulty dots ── */
+    .dots { display: flex; gap: 3px; align-items: center; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--surface3); }
+    .dot.on { background: var(--accent); }
+
+    /* ── Stale / last practiced ── */
+    .practiced-tag { font-size: 11px; color: var(--text-muted); }
+    .stale-tag { font-size: 11px; color: var(--orange); }
+
+    /* ── FAB ── */
+    .fab {
+      position: fixed; bottom: 22px; right: 22px;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--accent); color: #000; font-size: 30px;
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(232,197,71,0.45); z-index: 200;
+    }
+
+    /* ── Empty state ── */
+    .empty {
+      text-align: center; padding: 64px 24px; color: var(--text-dim);
+    }
+    .empty-icon { font-size: 52px; margin-bottom: 14px; }
+    .empty p { font-size: 15px; line-height: 1.6; }
+
+    /* ── Detail view ── */
+    .detail-wrap { padding: 18px 16px 80px; }
+    .detail-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .detail-artist { font-size: 15px; color: var(--text-dim); margin-bottom: 12px; }
+    .detail-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+    .detail-practiced { font-size: 12px; color: var(--text-dim); margin-bottom: 20px; }
+
+    .section-card {
+      background: var(--surface); border-radius: 12px;
+      padding: 15px; margin-bottom: 12px; border: 1px solid var(--border);
+    }
+    .section-label {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;
+      color: var(--accent); font-weight: 700; margin-bottom: 12px;
+    }
+    .chord-row { margin-bottom: 10px; }
+    .chord-row:last-child { margin-bottom: 0; }
+    .chord-name { font-size: 11px; color: var(--text-dim); margin-bottom: 3px; }
+    .chord-val { font-size: 14px; font-family: 'Courier New', monospace; color: var(--text); }
+
+    .diff-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
+    .diff-row:last-child { margin-bottom: 0; }
+    .diff-label { font-size: 14px; color: var(--text-dim); }
+
+    .link-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 13px 14px; background: var(--surface2); border-radius: 10px;
+      text-decoration: none; color: var(--text); margin-bottom: 8px;
+      border: 1px solid var(--border);
+    }
+    .link-row:last-child { margin-bottom: 0; }
+    .link-icon { font-size: 20px; width: 26px; text-align: center; }
+    .link-label { flex: 1; font-size: 14px; }
+    .link-sub { font-size: 11px; color: var(--text-dim); margin-top: 1px; }
+    .link-arrow { color: var(--text-muted); font-size: 18px; }
+
+    .notes-text { font-size: 14px; line-height: 1.65; color: var(--text); }
+
+    .action-btn {
+      width: 100%; padding: 14px; border-radius: 10px;
+      font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px;
+    }
+    .btn-primary { background: var(--accent); color: #000; border: none; }
+    .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    .btn-green { background: var(--green); color: #000; border: none; }
+    .btn-danger { background: transparent; color: var(--danger); border: 1px solid #e74c3c33; }
+
+    /* ── Form ── */
+    .form-wrap { padding: 16px 16px 90px; }
+    .form-group { margin-bottom: 15px; }
+    .form-label {
+      display: block; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--text-dim); margin-bottom: 7px; font-weight: 600;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); padding: 12px 13px; border-radius: 9px;
+      font-size: 15px; font-family: inherit; outline: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+    .form-textarea { resize: vertical; min-height: 80px; }
+    .form-select option { background: var(--surface); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .star-row { display: flex; gap: 6px; }
+    .star {
+      font-size: 26px; background: none; border: none;
+      cursor: pointer; padding: 2px; line-height: 1; color: var(--text-muted);
+    }
+    .star.on { color: var(--accent); }
+
+    .divider { height: 1px; background: var(--border); margin: 6px 0 16px; }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+// ════════════════════════════════════════════
+//  DATA LAYER
+// ════════════════════════════════════════════
+const STORAGE_KEY = 'guitar_rep_v1';
+
+const DEFAULT_SONGS = [
+  {
+    id: 'default_1',
+    title: 'R U Mine?',
+    artist: 'Arctic Monkeys',
+    key: 'Am',
+    capo: '',
+    tuning: 'Standard',
+    verse: 'A5 palm-muted power chord riff',
+    chorus: 'A5 – G5 – D5',
+    bridge: '',
+    strumming: 'Riff-driven, heavy palm muting, distortion',
+    guitarDiff: 3,
+    vocalDiff: 3,
+    status: 'Can Play',
+    lastPracticed: null,
+    notes: 'Trouble with the solo section'
+  }
+];
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || DEFAULT_SONGS; }
+  catch { return DEFAULT_SONGS; }
+}
+function save(songs) { localStorage.setItem(STORAGE_KEY, JSON.stringify(songs)); }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+
+function daysSince(d) {
+  if (!d) return null;
+  return Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
+}
+
+function searchUrl(base, artist, title) {
+  return base + encodeURIComponent(`${artist} ${title}`);
+}
+
+// ════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════
+const S = {
+  view: 'list',       // 'list' | 'detail' | 'form'
+  songs: load(),
+  filter: 'All',
+  search: '',
+  selectedId: null,
+  editId: null,
+  formDraft: {},      // temp storage for star ratings in form
+};
+
+// ════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════
+function statusBadge(status) {
+  const map = {
+    'Not Started': 'badge-not-started',
+    'Learning': 'badge-learning',
+    'Can Play': 'badge-can-play',
+    'Performance Ready': 'badge-perf-ready'
+  };
+  return `<span class="badge ${map[status] || 'badge-not-started'}">${status}</span>`;
+}
+
+function dots(n, max = 5) {
+  return `<div class="dots">${Array.from({length: max}, (_, i) =>
+    `<div class="dot${i < n ? ' on' : ''}"></div>`).join('')}</div>`;
+}
+
+function stars(name, val) {
+  return `<div class="star-row" data-stars="${name}">
+    ${[1,2,3,4,5].map(i =>
+      `<button class="star${i <= val ? ' on' : ''}" data-star="${i}" data-field="${name}">${i <= val ? '★' : '☆'}</button>`
+    ).join('')}
+  </div>
+  <input type="hidden" id="f-${name}" value="${val}">`;
+}
+
+// ════════════════════════════════════════════
+//  VIEWS
+// ════════════════════════════════════════════
+
+// ── LIST ──
+function viewList() {
+  const FILTERS = ['All', 'Not Started', 'Learning', 'Can Play', 'Performance Ready'];
+  const filtered = S.songs.filter(s => {
+    const mf = S.filter === 'All' || s.status === S.filter;
+    const ms = !S.search ||
+      s.title.toLowerCase().includes(S.search.toLowerCase()) ||
+      s.artist.toLowerCase().includes(S.search.toLowerCase());
+    return mf && ms;
+  });
+
+  const chips = FILTERS.map(f =>
+    `<button class="chip${S.filter === f ? ' active' : ''}" data-filter="${f}">${f}</button>`
+  ).join('');
+
+  let cards = '';
+  if (!filtered.length) {
+    cards = `<div class="empty">
+      <div class="empty-icon">🎸</div>
+      <p>${S.songs.length === 0 ? 'No songs yet.\nTap + to add your first song.' : 'No songs match this filter.'}</p>
+    </div>`;
+  } else {
+    cards = filtered.map(s => {
+      const days = daysSince(s.lastPracticed);
+      let practiceTag = '';
+      if (days === null) practiceTag = '';
+      else if (days === 0) practiceTag = `<span class="practiced-tag">Today</span>`;
+      else if (days >= 14) practiceTag = `<span class="stale-tag">⚠ ${days}d ago</span>`;
+      else practiceTag = `<span class="practiced-tag">${days}d ago</span>`;
+
+      return `<div class="song-card" data-id="${s.id}">
+        <div class="song-card-top">
+          <div>
+            <div class="song-card-title">${s.title}</div>
+            <div class="song-card-artist">${s.artist}</div>
+          </div>
+          ${dots(s.guitarDiff)}
+        </div>
+        <div class="song-card-bottom">
+          ${statusBadge(s.status)}
+          ${s.key ? `<span class="badge-key">${s.key}${s.capo ? ' · Capo ' + s.capo : ''}</span>` : ''}
+          ${practiceTag}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  return `
+    <div class="header">
+      <span class="header-title">🎸 Repertoire</span>
+      <span class="header-sub">${S.songs.length} song${S.songs.length !== 1 ? 's' : ''}</span>
+    </div>
+    <div class="search-wrap">
+      <input class="search-input" id="search" placeholder="Search songs or artists…" value="${S.search}">
+    </div>
+    <div class="filter-row">${chips}</div>
+    <div class="song-list">${cards}</div>
+    <button class="fab" id="fab">+</button>`;
+}
+
+// ── DETAIL ──
+function viewDetail() {
+  const s = S.songs.find(x => x.id === S.selectedId);
+  if (!s) { S.view = 'list'; return viewList(); }
+
+  const days = daysSince(s.lastPracticed);
+  let practiceLine = '';
+  if (days === null) practiceLine = 'Not practiced yet';
+  else if (days === 0) practiceLine = 'Last practiced: Today';
+  else practiceLine = `Last practiced: ${days} day${days !== 1 ? 's' : ''} ago${days >= 14 ? ' ⚠️' : ''}`;
+
+  const hasChords = s.verse || s.chorus || s.bridge || s.strumming;
+
+  return `
+    <div class="header">
+      <button class="back-btn" id="back">← Back</button>
+    </div>
+    <div class="detail-wrap">
+      <div class="detail-title">${s.title}</div>
+      <div class="detail-artist">${s.artist}</div>
+      <div class="detail-badges">
+        ${statusBadge(s.status)}
+        ${s.key ? `<span class="badge-key">${s.key}${s.capo ? ' · Capo ' + s.capo : ''}</span>` : ''}
+        ${s.tuning && s.tuning !== 'Standard' ? `<span class="badge-key">${s.tuning}</span>` : ''}
+      </div>
+      <div class="detail-practiced">${practiceLine}</div>
+
+      ${hasChords ? `
+      <div class="section-card">
+        <div class="section-label">Chords &amp; Structure</div>
+        ${s.verse ? `<div class="chord-row"><div class="chord-name">Verse</div><div class="chord-val">${s.verse}</div></div>` : ''}
+        ${s.chorus ? `<div class="chord-row"><div class="chord-name">Chorus</div><div class="chord-val">${s.chorus}</div></div>` : ''}
+        ${s.bridge ? `<div class="chord-row"><div class="chord-name">Bridge</div><div class="chord-val">${s.bridge}</div></div>` : ''}
+        ${s.strumming ? `<div class="chord-row"><div class="chord-name">Strumming / Picking</div><div class="chord-val">${s.strumming}</div></div>` : ''}
+      </div>` : ''}
+
+      <div class="section-card">
+        <div class="section-label">Difficulty</div>
+        <div class="diff-row"><span class="diff-label">🎸 Guitar</span>${dots(s.guitarDiff)}</div>
+        <div class="diff-row"><span class="diff-label">🎤 Vocals</span>${dots(s.vocalDiff)}</div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-label">Resources</div>
+        <a class="link-row" href="${searchUrl('https://www.songsterr.com/a/wsa/?q=', s.artist, s.title)}" target="_blank">
+          <span class="link-icon">🎵</span>
+          <div class="link-label">
+            <div>Songsterr</div>
+            <div class="link-sub">Interactive tabs &amp; rhythm</div>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="${searchUrl('https://www.ultimate-guitar.com/search.php?search_type=title&value=', s.title, s.artist)}" target="_blank">
+          <span class="link-icon">🎸</span>
+          <div class="link-label">
+            <div>Ultimate Guitar</div>
+            <div class="link-sub">Chords, tabs &amp; strumming</div>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="${searchUrl('https://www.youtube.com/results?search_query=', s.artist, s.title + ' guitar tutorial')}" target="_blank">
+          <span class="link-icon">▶️</span>
+          <div class="link-label">
+            <div>YouTube</div>
+            <div class="link-sub">Guitar tutorials</div>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+      </div>
+
+      ${s.notes ? `
+      <div class="section-card">
+        <div class="section-label">Personal Notes</div>
+        <div class="notes-text">${s.notes}</div>
+      </div>` : ''}
+
+      <button class="action-btn btn-green" id="practiced-btn">✓ Mark as Practiced Today</button>
+      <button class="action-btn btn-secondary" id="edit-btn">Edit Song</button>
+      <button class="action-btn btn-danger" id="delete-btn">Delete Song</button>
+    </div>`;
+}
+
+// ── FORM ──
+function viewForm() {
+  const editing = S.editId ? S.songs.find(s => s.id === S.editId) : null;
+  const s = editing || {};
+  const gd = S.formDraft.guitarDiff ?? s.guitarDiff ?? 0;
+  const vd = S.formDraft.vocalDiff ?? s.vocalDiff ?? 0;
+
+  return `
+    <div class="header">
+      <button class="back-btn" id="back">← Back</button>
+      <span class="header-title">${editing ? 'Edit Song' : 'Add Song'}</span>
+    </div>
+    <div class="form-wrap">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Title *</label>
+          <input class="form-input" id="f-title" value="${s.title || ''}" placeholder="Song title">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Artist *</label>
+          <input class="form-input" id="f-artist" value="${s.artist || ''}" placeholder="Artist">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Key</label>
+          <input class="form-input" id="f-key" value="${s.key || ''}" placeholder="e.g. Am, G, E">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Capo</label>
+          <input class="form-input" id="f-capo" value="${s.capo || ''}" placeholder="fret #">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tuning</label>
+        <input class="form-input" id="f-tuning" value="${s.tuning || 'Standard'}" placeholder="Standard / Drop D / Open G…">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="f-status">
+          ${['Not Started','Learning','Can Play','Performance Ready'].map(st =>
+            `<option value="${st}"${(s.status || 'Not Started') === st ? ' selected' : ''}>${st}</option>`
+          ).join('')}
+        </select>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="form-group">
+        <label class="form-label">Verse Chords</label>
+        <input class="form-input" id="f-verse" value="${s.verse || ''}" placeholder="e.g. Am – F – C – G">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Chorus Chords</label>
+        <input class="form-input" id="f-chorus" value="${s.chorus || ''}" placeholder="e.g. C – G – Am – F">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Bridge Chords</label>
+        <input class="form-input" id="f-bridge" value="${s.bridge || ''}" placeholder="Optional">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Strumming / Picking Pattern</label>
+        <input class="form-input" id="f-strumming" value="${s.strumming || ''}" placeholder="e.g. D-DU-UDU, fingerpicked arpeggios…">
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="form-group">
+        <label class="form-label">Guitar Difficulty</label>
+        ${stars('guitarDiff', gd)}
+      </div>
+      <div class="form-group">
+        <label class="form-label">Vocal Difficulty</label>
+        ${stars('vocalDiff', vd)}
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Personal Notes</label>
+        <textarea class="form-textarea" id="f-notes" placeholder="Trouble spots, gear settings, tips…">${s.notes || ''}</textarea>
+      </div>
+
+      <button class="action-btn btn-primary" id="save-btn">${editing ? 'Save Changes' : 'Add Song'}</button>
+    </div>`;
+}
+
+// ════════════════════════════════════════════
+//  RENDER + EVENTS
+// ════════════════════════════════════════════
+function render() {
+  document.getElementById('app').innerHTML =
+    S.view === 'list' ? viewList() :
+    S.view === 'detail' ? viewDetail() :
+    viewForm();
+  bind();
+}
+
+function bind() {
+  // LIST
+  document.querySelectorAll('.song-card').forEach(c =>
+    c.addEventListener('click', () => { S.selectedId = c.dataset.id; S.view = 'detail'; render(); })
+  );
+  document.querySelectorAll('.chip').forEach(c =>
+    c.addEventListener('click', () => { S.filter = c.dataset.filter; render(); })
+  );
+  const si = document.getElementById('search');
+  if (si) si.addEventListener('input', e => { S.search = e.target.value; render(); });
+  document.getElementById('fab')?.addEventListener('click', () => {
+    S.editId = null; S.formDraft = {}; S.view = 'form'; render();
+  });
+
+  // DETAIL
+  document.getElementById('back')?.addEventListener('click', () => {
+    if (S.view === 'form' && S.editId) { S.view = 'detail'; }
+    else { S.view = 'list'; }
+    S.formDraft = {};
+    render();
+  });
+  document.getElementById('edit-btn')?.addEventListener('click', () => {
+    S.editId = S.selectedId; S.formDraft = {}; S.view = 'form'; render();
+  });
+  document.getElementById('practiced-btn')?.addEventListener('click', () => {
+    const s = S.songs.find(x => x.id === S.selectedId);
+    if (s) { s.lastPracticed = new Date().toISOString().split('T')[0]; save(S.songs); render(); }
+  });
+  document.getElementById('delete-btn')?.addEventListener('click', () => {
+    const s = S.songs.find(x => x.id === S.selectedId);
+    if (s && confirm(`Delete "${s.title}"?`)) {
+      S.songs = S.songs.filter(x => x.id !== S.selectedId);
+      save(S.songs); S.view = 'list'; render();
+    }
+  });
+
+  // FORM — star buttons
+  document.querySelectorAll('.star').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const field = btn.dataset.field;
+      const val = parseInt(btn.dataset.star);
+      S.formDraft[field] = val;
+      document.getElementById(`f-${field}`).value = val;
+      document.querySelectorAll(`.star[data-field="${field}"]`).forEach((b, i) => {
+        b.textContent = i < val ? '★' : '☆';
+        b.classList.toggle('on', i < val);
+      });
+    });
+  });
+
+  // FORM — save
+  document.getElementById('save-btn')?.addEventListener('click', () => {
+    const title = document.getElementById('f-title').value.trim();
+    const artist = document.getElementById('f-artist').value.trim();
+    if (!title || !artist) { alert('Title and Artist are required.'); return; }
+
+    const data = {
+      title, artist,
+      key: document.getElementById('f-key').value.trim(),
+      capo: document.getElementById('f-capo').value.trim(),
+      tuning: document.getElementById('f-tuning').value.trim() || 'Standard',
+      status: document.getElementById('f-status').value,
+      verse: document.getElementById('f-verse').value.trim(),
+      chorus: document.getElementById('f-chorus').value.trim(),
+      bridge: document.getElementById('f-bridge').value.trim(),
+      strumming: document.getElementById('f-strumming').value.trim(),
+      guitarDiff: parseInt(document.getElementById('f-guitarDiff').value) || 0,
+      vocalDiff: parseInt(document.getElementById('f-vocalDiff').value) || 0,
+      notes: document.getElementById('f-notes').value.trim(),
+    };
+
+    if (S.editId) {
+      const idx = S.songs.findIndex(s => s.id === S.editId);
+      S.songs[idx] = { ...S.songs[idx], ...data };
+      S.selectedId = S.editId;
+      S.view = 'detail';
+    } else {
+      const ns = { id: uid(), lastPracticed: null, ...data };
+      S.songs.push(ns);
+      S.selectedId = ns.id;
+      S.view = 'detail';
+    }
+    S.editId = null; S.formDraft = {};
+    save(S.songs); render();
+  });
+}
+
+// ════════════════════════════════════════════
+//  SERVICE WORKER REGISTRATION
+// ════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
+render();
+</script>
+</body>
+</html>
