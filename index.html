@@ -194,6 +194,13 @@
     .cc-empty-msg { font-size: 13px; color: var(--text-muted); padding: 8px 0; line-height: 1.6; }
 
     /* ══════════════════════════════════════
+       YOUTUBE EMBED
+    ══════════════════════════════════════ */
+    .yt-wrap { margin-bottom: 12px; }
+    .yt-wrap iframe { width: 100%; aspect-ratio: 16/9; border: none; border-radius: 10px; display: block; }
+    .yt-hint { font-size: 12px; color: var(--text-muted); margin-top: 8px; line-height: 1.5; }
+
+    /* ══════════════════════════════════════
        TAB CONTENT (monospace text)
     ══════════════════════════════════════ */
     .tab-text-box {
@@ -450,6 +457,7 @@ const DEFAULT_SONGS = [{
   tabContent: '',
   customChordUrl: '',
   customTabUrl: '',
+  tutorialUrl: '',
 }];
 
 function load() {
@@ -463,6 +471,11 @@ function daysSince(d) {
   return Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
 }
 function q(artist, title) { return encodeURIComponent(`${artist} ${title}`); }
+function getYouTubeId(url) {
+  if (!url) return null;
+  const m = url.match(/(?:youtube\.com\/watch\?.*v=|youtu\.be\/|youtube\.com\/embed\/)([^?&\s]+)/);
+  return m ? m[1] : null;
+}
 
 // ════════════════════════════════════════════
 //  STATE
@@ -643,8 +656,24 @@ function viewDetail() {
   // ── TABS TAB ──
   else if (S.detailTab === 'tabs') {
     const tabText = s.tabContent || '';
+    const vidId = getYouTubeId(s.tutorialUrl || '');
+    const searchQuery = q(s.artist, s.title + ' guitar tutorial');
+
+    const ytEmbed = vidId
+      ? `<div class="yt-wrap">
+           <iframe src="https://www.youtube-nocookie.com/embed/${vidId}" allowfullscreen loading="lazy"></iframe>
+         </div>`
+      : `<div class="yt-wrap">
+           <iframe src="https://www.youtube-nocookie.com/embed?listType=search&list=${searchQuery}" allowfullscreen loading="lazy"></iframe>
+           <p class="yt-hint">Showing search results. Save a specific tutorial URL in <b>Edit Song</b> to lock in your preferred video.</p>
+         </div>`;
 
     paneHtml = `
+      <div class="sc">
+        <div class="sc-label">Tutorial Video</div>
+        ${ytEmbed}
+      </div>
+
       <div class="sc">
         <div class="sc-label">Tab Sources</div>
         <a class="link-row" href="https://www.songsterr.com/a/wsa/?q=${q(s.artist,s.title)}" target="_blank">
@@ -660,11 +689,6 @@ function viewDetail() {
         <a class="link-row" href="https://www.ultimate-guitar.com/search.php?search_type=title&value=${q(s.artist,s.title)}&type=bass+tabs" target="_blank">
           <span class="link-icon">🎚️</span>
           <div class="link-body"><div class="link-name">Ultimate Guitar — Bass Tabs</div><div class="link-sub">Bass tab versions</div></div>
-          <span class="link-arrow">›</span>
-        </a>
-        <a class="link-row" href="https://www.youtube.com/results?search_query=${q(s.artist,s.title+' guitar tutorial')}" target="_blank">
-          <span class="link-icon">▶️</span>
-          <div class="link-body"><div class="link-name">YouTube Tutorials</div><div class="link-sub">Video lessons &amp; covers</div></div>
           <span class="link-arrow">›</span>
         </a>
         ${s.customTabUrl?`<a class="link-row" href="${s.customTabUrl}" target="_blank" style="border-color:var(--accent)">
@@ -763,6 +787,10 @@ function viewForm() {
         <label class="form-label">Preferred Tab URL (optional)</label>
         <input class="form-input" id="f-customTabUrl" value="${s.customTabUrl||''}" placeholder="https://songsterr.com/…">
       </div>
+      <div class="form-group">
+        <label class="form-label">Tutorial Video URL (YouTube)</label>
+        <input class="form-input" id="f-tutorialUrl" value="${s.tutorialUrl||''}" placeholder="https://youtube.com/watch?v=… or https://youtu.be/…">
+      </div>
 
       <div class="divider"></div>
       <div class="form-group"><label class="form-label">Personal Notes</label><textarea class="form-textarea" id="f-notes" placeholder="Trouble spots, gear settings, tips…">${s.notes||''}</textarea></div>
@@ -854,6 +882,7 @@ function bind() {
       tabContent: document.getElementById('f-tabContent').value,
       customChordUrl: document.getElementById('f-customChordUrl').value.trim(),
       customTabUrl: document.getElementById('f-customTabUrl').value.trim(),
+      tutorialUrl: document.getElementById('f-tutorialUrl').value.trim(),
       notes: document.getElementById('f-notes').value.trim(),
     };
 
