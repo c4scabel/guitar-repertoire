@@ -18,7 +18,6 @@
       --surface2: #242424;
       --surface3: #2e2e2e;
       --accent: #e8c547;
-      --accent-dim: #b89930;
       --text: #f0f0f0;
       --text-dim: #888;
       --text-muted: #555;
@@ -32,24 +31,15 @@
     html, body { height: 100%; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      max-width: 480px;
-      margin: 0 auto;
-      min-height: 100%;
+      background: var(--bg); color: var(--text);
+      max-width: 480px; margin: 0 auto; min-height: 100%;
     }
 
     /* ── Header ── */
     .header {
-      background: var(--surface);
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid var(--border);
+      background: var(--surface); padding: 14px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border);
     }
     .header-title { font-size: 17px; font-weight: 700; color: var(--accent); }
     .header-sub { font-size: 13px; color: var(--text-dim); }
@@ -60,15 +50,10 @@
     }
 
     /* ── Search & Filters ── */
-    .search-wrap {
-      padding: 12px 16px 8px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-    }
+    .search-wrap { padding: 12px 16px 8px; background: var(--surface); border-bottom: 1px solid var(--border); }
     .search-input {
       width: 100%; background: var(--surface2); border: 1px solid var(--border);
-      color: var(--text); padding: 10px 14px; border-radius: 10px;
-      font-size: 15px; outline: none;
+      color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 15px; outline: none;
     }
     .search-input:focus { border-color: var(--accent); }
     .filter-row {
@@ -80,7 +65,7 @@
     .chip {
       padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600;
       border: 1px solid var(--border); background: transparent;
-      color: var(--text-dim); cursor: pointer; white-space: nowrap; transition: all 0.15s;
+      color: var(--text-dim); cursor: pointer; white-space: nowrap;
     }
     .chip.active { background: var(--accent); color: #000; border-color: var(--accent); }
 
@@ -99,99 +84,132 @@
     .song-card-bottom { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
     /* ── Badges ── */
-    .badge {
-      font-size: 11px; font-weight: 700; padding: 3px 9px;
-      border-radius: 12px; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap;
-    }
+    .badge { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; }
     .badge-not-started { background: #2a2a2a; color: var(--text-muted); }
     .badge-learning { background: #3a1f00; color: var(--orange); }
     .badge-can-play { background: #0a2030; color: var(--blue); }
     .badge-perf-ready { background: #082a18; color: var(--green); }
-    .badge-key {
-      font-size: 12px; color: var(--text-dim); background: var(--surface2);
-      padding: 3px 9px; border-radius: 10px;
-    }
+    .badge-key { font-size: 12px; color: var(--text-dim); background: var(--surface2); padding: 3px 9px; border-radius: 10px; }
 
-    /* ── Difficulty dots ── */
+    /* ── Dots & Stars ── */
     .dots { display: flex; gap: 3px; align-items: center; }
     .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--surface3); }
     .dot.on { background: var(--accent); }
-
-    /* ── Stale / last practiced ── */
     .practiced-tag { font-size: 11px; color: var(--text-muted); }
     .stale-tag { font-size: 11px; color: var(--orange); }
 
     /* ── FAB ── */
     .fab {
-      position: fixed; bottom: 22px; right: 22px;
-      width: 56px; height: 56px; border-radius: 50%;
-      background: var(--accent); color: #000; font-size: 30px;
-      border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
+      position: fixed; bottom: 22px; right: 22px; width: 56px; height: 56px;
+      border-radius: 50%; background: var(--accent); color: #000; font-size: 30px;
+      border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
       box-shadow: 0 4px 20px rgba(232,197,71,0.45); z-index: 200;
     }
 
-    /* ── Empty state ── */
-    .empty {
-      text-align: center; padding: 64px 24px; color: var(--text-dim);
-    }
+    /* ── Empty ── */
+    .empty { text-align: center; padding: 64px 24px; color: var(--text-dim); }
     .empty-icon { font-size: 52px; margin-bottom: 14px; }
     .empty p { font-size: 15px; line-height: 1.6; }
 
-    /* ── Detail view ── */
-    .detail-wrap { padding: 18px 16px 80px; }
+    /* ══════════════════════════════════════
+       DETAIL VIEW
+    ══════════════════════════════════════ */
+    .detail-header-block { padding: 16px 16px 0; }
     .detail-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-    .detail-artist { font-size: 15px; color: var(--text-dim); margin-bottom: 12px; }
-    .detail-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
-    .detail-practiced { font-size: 12px; color: var(--text-dim); margin-bottom: 20px; }
+    .detail-artist { font-size: 15px; color: var(--text-dim); margin-bottom: 10px; }
+    .detail-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
 
-    .section-card {
-      background: var(--surface); border-radius: 12px;
-      padding: 15px; margin-bottom: 12px; border: 1px solid var(--border);
+    /* ── Tab bar ── */
+    .detail-tabs {
+      display: flex; background: var(--surface);
+      border-bottom: 2px solid var(--border);
+      position: sticky; top: 48px; z-index: 99;
     }
-    .section-label {
-      font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;
-      color: var(--accent); font-weight: 700; margin-bottom: 12px;
+    .dtab {
+      flex: 1; padding: 12px 4px; text-align: center;
+      font-size: 13px; font-weight: 600; color: var(--text-dim);
+      background: none; border: none; cursor: pointer;
+      border-bottom: 2px solid transparent; margin-bottom: -2px;
     }
-    .chord-row { margin-bottom: 10px; }
-    .chord-row:last-child { margin-bottom: 0; }
-    .chord-name { font-size: 11px; color: var(--text-dim); margin-bottom: 3px; }
-    .chord-val { font-size: 14px; font-family: 'Courier New', monospace; color: var(--text); }
+    .dtab.active { color: var(--accent); border-bottom: 2px solid var(--accent); }
 
-    .diff-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
-    .diff-row:last-child { margin-bottom: 0; }
-    .diff-label { font-size: 14px; color: var(--text-dim); }
+    /* ── Tab content ── */
+    .tab-pane { padding: 14px 16px 90px; }
 
-    .link-row {
-      display: flex; align-items: center; gap: 12px;
-      padding: 13px 14px; background: var(--surface2); border-radius: 10px;
-      text-decoration: none; color: var(--text); margin-bottom: 8px;
-      border: 1px solid var(--border);
-    }
-    .link-row:last-child { margin-bottom: 0; }
-    .link-icon { font-size: 20px; width: 26px; text-align: center; }
-    .link-label { flex: 1; font-size: 14px; }
-    .link-sub { font-size: 11px; color: var(--text-dim); margin-top: 1px; }
-    .link-arrow { color: var(--text-muted); font-size: 18px; }
+    /* ── Shared section card ── */
+    .sc { background: var(--surface); border-radius: 12px; padding: 15px; margin-bottom: 12px; border: 1px solid var(--border); }
+    .sc-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--accent); font-weight: 700; margin-bottom: 12px; }
 
-    .notes-text { font-size: 14px; line-height: 1.65; color: var(--text); }
+    /* ── Overview tab ── */
+    .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
+    .info-row:last-child { margin-bottom: 0; }
+    .info-label { font-size: 14px; color: var(--text-dim); }
+    .practiced-line { font-size: 12px; color: var(--text-dim); margin-bottom: 16px; }
+    .notes-text { font-size: 14px; line-height: 1.65; }
 
-    .action-btn {
-      width: 100%; padding: 14px; border-radius: 10px;
-      font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px;
-    }
+    /* ── Action buttons ── */
+    .action-btn { width: 100%; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px; }
     .btn-primary { background: var(--accent); color: #000; border: none; }
     .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
     .btn-green { background: var(--green); color: #000; border: none; }
     .btn-danger { background: transparent; color: var(--danger); border: 1px solid #e74c3c33; }
 
-    /* ── Form ── */
+    /* ── Source link rows ── */
+    .link-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 13px; background: var(--surface2); border-radius: 10px;
+      text-decoration: none; color: var(--text); margin-bottom: 8px;
+      border: 1px solid var(--border);
+    }
+    .link-row:last-child { margin-bottom: 0; }
+    .link-icon { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; }
+    .link-body { flex: 1; }
+    .link-name { font-size: 14px; font-weight: 600; }
+    .link-sub { font-size: 11px; color: var(--text-dim); margin-top: 1px; }
+    .link-arrow { color: var(--text-muted); font-size: 18px; }
+
+    /* ══════════════════════════════════════
+       CHORD DIAGRAMS
+    ══════════════════════════════════════ */
+    .chord-grid { display: flex; flex-wrap: wrap; gap: 12px; padding: 4px 0 8px; justify-content: flex-start; }
+    .chord-box { display: flex; flex-direction: column; align-items: center; }
+    .chord-box-unknown {
+      width: 80px; height: 95px; border-radius: 8px;
+      border: 1px dashed var(--border); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 4px;
+    }
+    .chord-unknown-name { font-size: 12px; color: var(--text-dim); font-weight: 700; }
+    .chord-unknown-q { font-size: 22px; color: var(--text-muted); }
+    .no-chords { font-size: 13px; color: var(--text-muted); padding: 8px 0; }
+
+    /* ══════════════════════════════════════
+       CHORD CHART (lyrics + chords)
+    ══════════════════════════════════════ */
+    .cc-wrap { font-family: 'Courier New', monospace; font-size: 12.5px; line-height: 1.55; overflow-x: auto; }
+    .cc-section { color: var(--orange); font-weight: 700; display: block; margin-top: 12px; margin-bottom: 2px; font-size: 12px; }
+    .cc-chord-line { display: block; white-space: pre; color: var(--text-dim); }
+    .cc-chord { color: var(--accent); font-weight: 700; }
+    .cc-lyric-line { display: block; white-space: pre; color: var(--text); }
+    .cc-gap { display: block; height: 7px; }
+    .cc-empty-msg { font-size: 13px; color: var(--text-muted); padding: 8px 0; line-height: 1.6; }
+
+    /* ══════════════════════════════════════
+       TAB CONTENT (monospace text)
+    ══════════════════════════════════════ */
+    .tab-text-box {
+      background: var(--surface2); border-radius: 8px; padding: 12px;
+      font-family: 'Courier New', monospace; font-size: 11.5px; color: var(--text);
+      overflow-x: auto; white-space: pre; line-height: 1.7;
+      max-height: 420px; overflow-y: auto; border: 1px solid var(--border);
+    }
+    .tab-empty-msg { font-size: 13px; color: var(--text-muted); padding: 8px 0; line-height: 1.6; }
+
+    /* ══════════════════════════════════════
+       FORM
+    ══════════════════════════════════════ */
     .form-wrap { padding: 16px 16px 90px; }
     .form-group { margin-bottom: 15px; }
-    .form-label {
-      display: block; font-size: 11px; text-transform: uppercase;
-      letter-spacing: 0.8px; color: var(--text-dim); margin-bottom: 7px; font-weight: 600;
-    }
+    .form-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-dim); margin-bottom: 7px; font-weight: 600; }
     .form-input, .form-select, .form-textarea {
       width: 100%; background: var(--surface); border: 1px solid var(--border);
       color: var(--text); padding: 12px 13px; border-radius: 9px;
@@ -199,47 +217,240 @@
     }
     .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
     .form-textarea { resize: vertical; min-height: 80px; }
+    .form-textarea.mono { font-family: 'Courier New', monospace; font-size: 13px; min-height: 140px; }
     .form-select option { background: var(--surface); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
     .star-row { display: flex; gap: 6px; }
-    .star {
-      font-size: 26px; background: none; border: none;
-      cursor: pointer; padding: 2px; line-height: 1; color: var(--text-muted);
-    }
+    .star { font-size: 26px; background: none; border: none; cursor: pointer; padding: 2px; line-height: 1; color: var(--text-muted); }
     .star.on { color: var(--accent); }
-
     .divider { height: 1px; background: var(--border); margin: 6px 0 16px; }
+    .form-section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); font-weight: 700; margin-bottom: 12px; }
   </style>
 </head>
 <body>
 <div id="app"></div>
-
 <script>
+
+// ════════════════════════════════════════════
+//  CHORD DATABASE
+// ════════════════════════════════════════════
+// frets: [E, A, D, G, B, e] — -1 = mute, 0 = open, n = fret number
+// baseFret: lowest fret shown (1 = at nut)
+// barre: { fret, from, to } — string indices (0=E, 5=e)
+const CHORD_DB = {
+  // ── MAJOR ──
+  'C':   {b:1, f:[-1,3,2,0,1,0],    fn:[0,3,2,0,1,0]},
+  'D':   {b:1, f:[-1,-1,0,2,3,2],   fn:[0,0,0,1,3,2]},
+  'E':   {b:1, f:[0,2,2,1,0,0],     fn:[0,2,3,1,0,0]},
+  'F':   {b:1, f:[1,3,3,2,1,1],     fn:[1,3,4,2,1,1], br:{fret:1,from:0,to:5}},
+  'G':   {b:1, f:[3,2,0,0,0,3],     fn:[3,2,0,0,0,4]},
+  'A':   {b:1, f:[-1,0,2,2,2,0],    fn:[0,0,1,2,3,0]},
+  'B':   {b:2, f:[-1,2,4,4,4,2],    fn:[0,1,3,4,2,1], br:{fret:2,from:1,to:5}},
+  // ── MINOR ──
+  'Cm':  {b:3, f:[-1,3,5,5,4,3],    fn:[0,1,3,4,2,1], br:{fret:3,from:1,to:5}},
+  'Dm':  {b:1, f:[-1,-1,0,2,3,1],   fn:[0,0,0,2,3,1]},
+  'Em':  {b:1, f:[0,2,2,0,0,0],     fn:[0,2,3,0,0,0]},
+  'Fm':  {b:1, f:[1,3,3,1,1,1],     fn:[1,3,4,1,1,1], br:{fret:1,from:0,to:5}},
+  'Gm':  {b:3, f:[3,5,5,3,3,3],     fn:[1,3,4,1,1,1], br:{fret:3,from:0,to:5}},
+  'Am':  {b:1, f:[-1,0,2,2,1,0],    fn:[0,0,2,3,1,0]},
+  'Bm':  {b:2, f:[-1,2,4,4,3,2],    fn:[0,1,3,4,2,1], br:{fret:2,from:1,to:5}},
+  // ── SHARPS/FLATS MAJOR ──
+  'C#':  {b:4, f:[-1,4,6,6,6,4],    fn:[0,1,3,4,2,1], br:{fret:4,from:1,to:5}},
+  'Db':  {b:4, f:[-1,4,6,6,6,4],    fn:[0,1,3,4,2,1], br:{fret:4,from:1,to:5}},
+  'D#':  {b:6, f:[-1,6,8,8,8,6],    fn:[0,1,3,4,2,1], br:{fret:6,from:1,to:5}},
+  'Eb':  {b:6, f:[-1,6,8,8,8,6],    fn:[0,1,3,4,2,1], br:{fret:6,from:1,to:5}},
+  'F#':  {b:2, f:[2,4,4,3,2,2],     fn:[1,3,4,2,1,1], br:{fret:2,from:0,to:5}},
+  'Gb':  {b:2, f:[2,4,4,3,2,2],     fn:[1,3,4,2,1,1], br:{fret:2,from:0,to:5}},
+  'G#':  {b:4, f:[4,6,6,5,4,4],     fn:[1,3,4,2,1,1], br:{fret:4,from:0,to:5}},
+  'Ab':  {b:4, f:[4,6,6,5,4,4],     fn:[1,3,4,2,1,1], br:{fret:4,from:0,to:5}},
+  'A#':  {b:1, f:[-1,1,3,3,3,1],    fn:[0,1,3,4,2,1], br:{fret:1,from:1,to:5}},
+  'Bb':  {b:1, f:[-1,1,3,3,3,1],    fn:[0,1,3,4,2,1], br:{fret:1,from:1,to:5}},
+  // ── SHARPS/FLATS MINOR ──
+  'C#m': {b:4, f:[-1,4,6,6,5,4],    fn:[0,1,3,4,2,1], br:{fret:4,from:1,to:5}},
+  'Dbm': {b:4, f:[-1,4,6,6,5,4],    fn:[0,1,3,4,2,1], br:{fret:4,from:1,to:5}},
+  'D#m': {b:6, f:[-1,6,8,8,7,6],    fn:[0,1,3,4,2,1], br:{fret:6,from:1,to:5}},
+  'Ebm': {b:6, f:[-1,6,8,8,7,6],    fn:[0,1,3,4,2,1], br:{fret:6,from:1,to:5}},
+  'F#m': {b:2, f:[2,4,4,2,2,2],     fn:[1,3,4,1,1,1], br:{fret:2,from:0,to:5}},
+  'Gbm': {b:2, f:[2,4,4,2,2,2],     fn:[1,3,4,1,1,1], br:{fret:2,from:0,to:5}},
+  'G#m': {b:4, f:[4,6,6,4,4,4],     fn:[1,3,4,1,1,1], br:{fret:4,from:0,to:5}},
+  'Abm': {b:4, f:[4,6,6,4,4,4],     fn:[1,3,4,1,1,1], br:{fret:4,from:0,to:5}},
+  'A#m': {b:1, f:[-1,1,3,3,2,1],    fn:[0,1,3,4,2,1], br:{fret:1,from:1,to:5}},
+  'Bbm': {b:1, f:[-1,1,3,3,2,1],    fn:[0,1,3,4,2,1], br:{fret:1,from:1,to:5}},
+  // ── 7THS ──
+  'C7':  {b:1, f:[-1,3,2,3,1,0],    fn:[0,3,2,4,1,0]},
+  'D7':  {b:1, f:[-1,-1,0,2,1,2],   fn:[0,0,0,2,1,3]},
+  'E7':  {b:1, f:[0,2,0,1,0,0],     fn:[0,2,0,1,0,0]},
+  'G7':  {b:1, f:[3,2,0,0,0,1],     fn:[3,2,0,0,0,1]},
+  'A7':  {b:1, f:[-1,0,2,0,2,0],    fn:[0,0,2,0,3,0]},
+  'B7':  {b:1, f:[-1,2,1,2,0,2],    fn:[0,2,1,3,0,4]},
+  // ── POWER CHORDS ──
+  'E5':  {b:1, f:[0,2,2,-1,-1,-1],  fn:[0,1,2,0,0,0]},
+  'F5':  {b:1, f:[1,3,3,-1,-1,-1],  fn:[1,3,4,0,0,0]},
+  'F#5': {b:2, f:[2,4,4,-1,-1,-1],  fn:[1,3,4,0,0,0]},
+  'G5':  {b:3, f:[3,5,5,-1,-1,-1],  fn:[1,3,4,0,0,0]},
+  'G#5': {b:4, f:[4,6,6,-1,-1,-1],  fn:[1,3,4,0,0,0]},
+  'Ab5': {b:4, f:[4,6,6,-1,-1,-1],  fn:[1,3,4,0,0,0]},
+  'A5':  {b:1, f:[-1,0,2,2,-1,-1],  fn:[0,0,1,2,0,0]},
+  'A#5': {b:1, f:[-1,1,3,3,-1,-1],  fn:[0,1,3,4,0,0]},
+  'Bb5': {b:1, f:[-1,1,3,3,-1,-1],  fn:[0,1,3,4,0,0]},
+  'B5':  {b:2, f:[-1,2,4,4,-1,-1],  fn:[0,1,3,4,0,0]},
+  'C5':  {b:3, f:[-1,3,5,5,-1,-1],  fn:[0,1,3,4,0,0]},
+  'D5':  {b:1, f:[-1,-1,0,2,3,-1],  fn:[0,0,0,1,3,0]},
+};
+
+// ════════════════════════════════════════════
+//  CHORD SVG RENDERER
+// ════════════════════════════════════════════
+function chordSVG(name) {
+  const chord = CHORD_DB[name];
+  if (!chord) {
+    return `<div class="chord-box">
+      <div class="chord-box-unknown">
+        <div class="chord-unknown-name">${name}</div>
+        <div class="chord-unknown-q">?</div>
+      </div>
+    </div>`;
+  }
+
+  // Layout constants
+  const sx = [10, 22, 34, 46, 58, 70]; // string x positions (6 strings, 12px apart)
+  const fy0 = 32;   // fretboard top y
+  const fs = 14;    // fret spacing
+  const nf = 4;     // frets shown
+  const W = 80, H = 96;
+  const els = [];
+
+  // Chord name
+  els.push(`<text x="${W/2}" y="11" text-anchor="middle" font-size="11" fill="#f0f0f0" font-weight="700">${name}</text>`);
+
+  // Nut (thick bar) or fret number
+  if (chord.b === 1) {
+    els.push(`<rect x="${sx[0]-1}" y="${fy0-4}" width="${sx[5]-sx[0]+2}" height="4" fill="#bbb" rx="1"/>`);
+  } else {
+    els.push(`<text x="${sx[0]-4}" y="${fy0 + fs*0.65}" text-anchor="end" font-size="8" fill="#777">${chord.b}fr</text>`);
+    els.push(`<line x1="${sx[0]}" y1="${fy0}" x2="${sx[5]}" y2="${fy0}" stroke="#555" stroke-width="1.5"/>`);
+  }
+
+  // Fret lines
+  for (let f = 1; f <= nf; f++) {
+    const y = fy0 + f * fs;
+    els.push(`<line x1="${sx[0]}" y1="${y}" x2="${sx[5]}" y2="${y}" stroke="#333" stroke-width="1"/>`);
+  }
+
+  // String lines
+  for (let s = 0; s < 6; s++) {
+    els.push(`<line x1="${sx[s]}" y1="${fy0}" x2="${sx[s]}" y2="${fy0 + nf*fs}" stroke="#444" stroke-width="1"/>`);
+  }
+
+  // Barre bar
+  if (chord.br) {
+    const bRel = chord.br.fret - chord.b;
+    const by = fy0 + bRel * fs + fs / 2;
+    const bx1 = sx[chord.br.from], bx2 = sx[chord.br.to];
+    els.push(`<rect x="${bx1}" y="${by-5}" width="${bx2-bx1}" height="10" rx="5" fill="#e8c547"/>`);
+  }
+
+  // Finger dots
+  for (let s = 0; s < 6; s++) {
+    const fret = chord.f[s];
+    if (fret <= 0) continue;
+    // Skip if barre covers this string at this fret
+    if (chord.br && fret === chord.br.fret && s >= chord.br.from && s <= chord.br.to) continue;
+    const relFret = fret - chord.b;
+    const cx = sx[s];
+    const cy = fy0 + relFret * fs + fs / 2;
+    els.push(`<circle cx="${cx}" cy="${cy}" r="5" fill="#e8c547"/>`);
+    const finger = chord.fn ? chord.fn[s] : 0;
+    if (finger > 0) {
+      els.push(`<text x="${cx}" y="${cy+3.5}" text-anchor="middle" font-size="7" fill="#000" font-weight="bold">${finger}</text>`);
+    }
+  }
+
+  // Mute (×) / Open (○) markers above strings
+  for (let s = 0; s < 6; s++) {
+    const fret = chord.f[s];
+    const x = sx[s];
+    if (fret === -1) {
+      els.push(`<text x="${x}" y="${fy0-7}" text-anchor="middle" font-size="12" fill="#c0392b" font-weight="bold">✕</text>`);
+    } else if (fret === 0) {
+      els.push(`<circle cx="${x}" cy="${fy0-10}" r="4" fill="none" stroke="#777" stroke-width="1.5"/>`);
+    }
+  }
+
+  return `<div class="chord-box"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${els.join('')}</svg></div>`;
+}
+
+// ════════════════════════════════════════════
+//  CHORD EXTRACTION
+// ════════════════════════════════════════════
+function extractChords(song) {
+  const text = [song.verse, song.chorus, song.bridge].filter(Boolean).join(' ');
+  const pat = /\b([A-G][#b]?(?:m(?:aj)?|sus[24]?|dim|aug|add\d+|\d+)?)\b/g;
+  const seen = new Set();
+  const result = [];
+  let m;
+  while ((m = pat.exec(text)) !== null) {
+    const c = m[1];
+    if (!seen.has(c)) { seen.add(c); result.push(c); }
+  }
+  return result;
+}
+
+// ════════════════════════════════════════════
+//  CHORD CHART RENDERER
+// ════════════════════════════════════════════
+const CHORD_PAT = /\b([A-G][#b]?(?:m(?:aj)?|sus[24]?|dim|aug|add\d+|\d+)?)\b/g;
+
+function isChordLine(line) {
+  const trimmed = line.trim();
+  if (!trimmed) return false;
+  const tokens = trimmed.split(/\s+/).filter(Boolean);
+  if (!tokens.length) return false;
+  const cp = /^[A-G][#b]?(?:m(?:aj)?|sus[24]?|dim|aug|add\d+|\d+)?$/;
+  return tokens.filter(t => cp.test(t)).length / tokens.length >= 0.6;
+}
+
+function renderChordChart(text) {
+  if (!text || !text.trim()) return '';
+  return '<div class="cc-wrap">' + text.split('\n').map(line => {
+    if (!line.trim()) return '<span class="cc-gap"></span>';
+    if (/^\[.+\]$/.test(line.trim()))
+      return `<span class="cc-section">${line.trim()}</span>`;
+    if (isChordLine(line)) {
+      const hl = line.replace(/([A-G][#b]?(?:m(?:aj)?|sus[24]?|dim|aug|add\d+|\d+)?)/g,
+        '<span class="cc-chord">$1</span>');
+      return `<span class="cc-chord-line">${hl}</span>`;
+    }
+    return `<span class="cc-lyric-line">${line}</span>`;
+  }).join('') + '</div>';
+}
+
 // ════════════════════════════════════════════
 //  DATA LAYER
 // ════════════════════════════════════════════
 const STORAGE_KEY = 'guitar_rep_v1';
 
-const DEFAULT_SONGS = [
-  {
-    id: 'default_1',
-    title: 'R U Mine?',
-    artist: 'Arctic Monkeys',
-    key: 'Am',
-    capo: '',
-    tuning: 'Standard',
-    verse: 'A5 palm-muted power chord riff',
-    chorus: 'A5 – G5 – D5',
-    bridge: '',
-    strumming: 'Riff-driven, heavy palm muting, distortion',
-    guitarDiff: 3,
-    vocalDiff: 3,
-    status: 'Can Play',
-    lastPracticed: null,
-    notes: 'Trouble with the solo section'
-  }
-];
+const DEFAULT_SONGS = [{
+  id: 'default_1',
+  title: 'R U Mine?',
+  artist: 'Arctic Monkeys',
+  key: 'F#m',
+  capo: '',
+  tuning: 'Standard',
+  verse: 'F#m – D – Bm',
+  chorus: 'F#m – D – Bm – A – C# – Am',
+  bridge: '',
+  strumming: 'Riff-driven, heavy palm muting, distortion',
+  guitarDiff: 3,
+  vocalDiff: 3,
+  status: 'Can Play',
+  lastPracticed: null,
+  notes: 'Trouble with the solo section',
+  chordChart: '',
+  tabContent: '',
+  customChordUrl: '',
+  customTabUrl: '',
+}];
 
 function load() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || DEFAULT_SONGS; }
@@ -247,102 +458,77 @@ function load() {
 }
 function save(songs) { localStorage.setItem(STORAGE_KEY, JSON.stringify(songs)); }
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
-
 function daysSince(d) {
   if (!d) return null;
   return Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
 }
-
-function searchUrl(base, artist, title) {
-  return base + encodeURIComponent(`${artist} ${title}`);
-}
+function q(artist, title) { return encodeURIComponent(`${artist} ${title}`); }
 
 // ════════════════════════════════════════════
 //  STATE
 // ════════════════════════════════════════════
 const S = {
-  view: 'list',       // 'list' | 'detail' | 'form'
+  view: 'list',
   songs: load(),
   filter: 'All',
   search: '',
   selectedId: null,
   editId: null,
-  formDraft: {},      // temp storage for star ratings in form
+  formDraft: {},
+  detailTab: 'overview',
 };
 
 // ════════════════════════════════════════════
 //  HELPERS
 // ════════════════════════════════════════════
 function statusBadge(status) {
-  const map = {
-    'Not Started': 'badge-not-started',
-    'Learning': 'badge-learning',
-    'Can Play': 'badge-can-play',
-    'Performance Ready': 'badge-perf-ready'
-  };
-  return `<span class="badge ${map[status] || 'badge-not-started'}">${status}</span>`;
+  const map = {'Not Started':'badge-not-started','Learning':'badge-learning','Can Play':'badge-can-play','Performance Ready':'badge-perf-ready'};
+  return `<span class="badge ${map[status]||'badge-not-started'}">${status}</span>`;
 }
-
-function dots(n, max = 5) {
-  return `<div class="dots">${Array.from({length: max}, (_, i) =>
-    `<div class="dot${i < n ? ' on' : ''}"></div>`).join('')}</div>`;
+function dots(n, max=5) {
+  return `<div class="dots">${Array.from({length:max},(_,i)=>`<div class="dot${i<n?' on':''}"></div>`).join('')}</div>`;
 }
-
 function stars(name, val) {
   return `<div class="star-row" data-stars="${name}">
-    ${[1,2,3,4,5].map(i =>
-      `<button class="star${i <= val ? ' on' : ''}" data-star="${i}" data-field="${name}">${i <= val ? '★' : '☆'}</button>`
-    ).join('')}
-  </div>
-  <input type="hidden" id="f-${name}" value="${val}">`;
+    ${[1,2,3,4,5].map(i=>`<button class="star${i<=val?' on':''}" data-star="${i}" data-field="${name}">${i<=val?'★':'☆'}</button>`).join('')}
+  </div><input type="hidden" id="f-${name}" value="${val}">`;
 }
 
 // ════════════════════════════════════════════
 //  VIEWS
 // ════════════════════════════════════════════
 
-// ── LIST ──
+// ── LIST ──────────────────────────────────
 function viewList() {
-  const FILTERS = ['All', 'Not Started', 'Learning', 'Can Play', 'Performance Ready'];
+  const FILTERS = ['All','Not Started','Learning','Can Play','Performance Ready'];
   const filtered = S.songs.filter(s => {
-    const mf = S.filter === 'All' || s.status === S.filter;
-    const ms = !S.search ||
-      s.title.toLowerCase().includes(S.search.toLowerCase()) ||
-      s.artist.toLowerCase().includes(S.search.toLowerCase());
+    const mf = S.filter==='All' || s.status===S.filter;
+    const ms = !S.search || s.title.toLowerCase().includes(S.search.toLowerCase()) || s.artist.toLowerCase().includes(S.search.toLowerCase());
     return mf && ms;
   });
 
-  const chips = FILTERS.map(f =>
-    `<button class="chip${S.filter === f ? ' active' : ''}" data-filter="${f}">${f}</button>`
-  ).join('');
+  const chips = FILTERS.map(f => `<button class="chip${S.filter===f?' active':''}" data-filter="${f}">${f}</button>`).join('');
 
   let cards = '';
   if (!filtered.length) {
-    cards = `<div class="empty">
-      <div class="empty-icon">🎸</div>
-      <p>${S.songs.length === 0 ? 'No songs yet.\nTap + to add your first song.' : 'No songs match this filter.'}</p>
-    </div>`;
+    cards = `<div class="empty"><div class="empty-icon">🎸</div><p>${S.songs.length===0?'No songs yet.\nTap + to add your first.':'No songs match this filter.'}</p></div>`;
   } else {
     cards = filtered.map(s => {
       const days = daysSince(s.lastPracticed);
-      let practiceTag = '';
-      if (days === null) practiceTag = '';
-      else if (days === 0) practiceTag = `<span class="practiced-tag">Today</span>`;
-      else if (days >= 14) practiceTag = `<span class="stale-tag">⚠ ${days}d ago</span>`;
-      else practiceTag = `<span class="practiced-tag">${days}d ago</span>`;
-
+      let pt = '';
+      if (days===null) pt='';
+      else if (days===0) pt=`<span class="practiced-tag">Today</span>`;
+      else if (days>=14) pt=`<span class="stale-tag">⚠ ${days}d ago</span>`;
+      else pt=`<span class="practiced-tag">${days}d ago</span>`;
       return `<div class="song-card" data-id="${s.id}">
         <div class="song-card-top">
-          <div>
-            <div class="song-card-title">${s.title}</div>
-            <div class="song-card-artist">${s.artist}</div>
-          </div>
+          <div><div class="song-card-title">${s.title}</div><div class="song-card-artist">${s.artist}</div></div>
           ${dots(s.guitarDiff)}
         </div>
         <div class="song-card-bottom">
           ${statusBadge(s.status)}
-          ${s.key ? `<span class="badge-key">${s.key}${s.capo ? ' · Capo ' + s.capo : ''}</span>` : ''}
-          ${practiceTag}
+          ${s.key?`<span class="badge-key">${s.key}${s.capo?' · Capo '+s.capo:''}</span>`:''}
+          ${pt}
         </div>
       </div>`;
     }).join('');
@@ -351,101 +537,171 @@ function viewList() {
   return `
     <div class="header">
       <span class="header-title">🎸 Repertoire</span>
-      <span class="header-sub">${S.songs.length} song${S.songs.length !== 1 ? 's' : ''}</span>
+      <span class="header-sub">${S.songs.length} song${S.songs.length!==1?'s':''}</span>
     </div>
-    <div class="search-wrap">
-      <input class="search-input" id="search" placeholder="Search songs or artists…" value="${S.search}">
-    </div>
+    <div class="search-wrap"><input class="search-input" id="search" placeholder="Search songs or artists…" value="${S.search}"></div>
     <div class="filter-row">${chips}</div>
     <div class="song-list">${cards}</div>
     <button class="fab" id="fab">+</button>`;
 }
 
-// ── DETAIL ──
+// ── DETAIL ────────────────────────────────
 function viewDetail() {
   const s = S.songs.find(x => x.id === S.selectedId);
-  if (!s) { S.view = 'list'; return viewList(); }
+  if (!s) { S.view='list'; return viewList(); }
+
+  const tabs = ['overview','chords','tabs'];
+  const tabLabels = {overview:'Overview', chords:'Chords', tabs:'Tabs'};
+  const tabBar = tabs.map(t =>
+    `<button class="dtab${S.detailTab===t?' active':''}" data-tab="${t}">${tabLabels[t]}</button>`
+  ).join('');
 
   const days = daysSince(s.lastPracticed);
-  let practiceLine = '';
-  if (days === null) practiceLine = 'Not practiced yet';
-  else if (days === 0) practiceLine = 'Last practiced: Today';
-  else practiceLine = `Last practiced: ${days} day${days !== 1 ? 's' : ''} ago${days >= 14 ? ' ⚠️' : ''}`;
+  let practiceLine = days===null?'Not practiced yet':days===0?'Last practiced: Today':`Last practiced: ${days} day${days!==1?'s':''} ago${days>=14?' ⚠️':''}`;
 
-  const hasChords = s.verse || s.chorus || s.bridge || s.strumming;
+  let paneHtml = '';
+
+  // ── OVERVIEW TAB ──
+  if (S.detailTab === 'overview') {
+    const hasChords = s.verse || s.chorus || s.bridge || s.strumming;
+    paneHtml = `
+      <div class="practiced-line">${practiceLine}</div>
+
+      ${hasChords ? `<div class="sc">
+        <div class="sc-label">Chords &amp; Structure</div>
+        ${s.verse?`<div class="info-row"><span class="info-label">Verse</span><span style="font-family:monospace;font-size:14px">${s.verse}</span></div>`:''}
+        ${s.chorus?`<div class="info-row"><span class="info-label">Chorus</span><span style="font-family:monospace;font-size:14px">${s.chorus}</span></div>`:''}
+        ${s.bridge?`<div class="info-row"><span class="info-label">Bridge</span><span style="font-family:monospace;font-size:14px">${s.bridge}</span></div>`:''}
+        ${s.strumming?`<div class="info-row"><span class="info-label">Strumming</span><span style="font-size:13px;color:var(--text-dim)">${s.strumming}</span></div>`:''}
+      </div>` : ''}
+
+      <div class="sc">
+        <div class="sc-label">Difficulty</div>
+        <div class="info-row"><span class="info-label">🎸 Guitar</span>${dots(s.guitarDiff)}</div>
+        <div class="info-row"><span class="info-label">🎤 Vocals</span>${dots(s.vocalDiff)}</div>
+      </div>
+
+      ${s.notes?`<div class="sc"><div class="sc-label">Personal Notes</div><div class="notes-text">${s.notes}</div></div>`:''}
+
+      <button class="action-btn btn-green" id="practiced-btn">✓ Mark as Practiced Today</button>
+      <button class="action-btn btn-secondary" id="edit-btn">Edit Song</button>
+      <button class="action-btn btn-danger" id="delete-btn">Delete Song</button>`;
+  }
+
+  // ── CHORDS TAB ──
+  else if (S.detailTab === 'chords') {
+    const chordNames = extractChords(s);
+    const diagrams = chordNames.length
+      ? `<div class="chord-grid">${chordNames.map(c => chordSVG(c)).join('')}</div>`
+      : `<div class="no-chords">Add chord names to Verse / Chorus fields to see diagrams.</div>`;
+
+    const chartHtml = renderChordChart(s.chordChart || '');
+
+    paneHtml = `
+      <div class="sc">
+        <div class="sc-label">Chord Diagrams</div>
+        ${diagrams}
+      </div>
+
+      <div class="sc">
+        <div class="sc-label">Chord Chart</div>
+        ${chartHtml
+          ? chartHtml
+          : `<div class="cc-empty-msg">No chord chart yet.<br>Go to <b>Edit Song</b> → paste a chord chart from Ultimate Guitar or similar.</div>`}
+      </div>
+
+      <div class="sc">
+        <div class="sc-label">Chord Sources</div>
+        <a class="link-row" href="https://www.ultimate-guitar.com/search.php?search_type=title&value=${q(s.artist,s.title)}" target="_blank">
+          <span class="link-icon">🎸</span>
+          <div class="link-body"><div class="link-name">Ultimate Guitar</div><div class="link-sub">Largest chord &amp; tab library</div></div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="https://chordify.net/search/${q(s.artist,s.title)}" target="_blank">
+          <span class="link-icon">🎵</span>
+          <div class="link-body"><div class="link-name">Chordify</div><div class="link-sub">Auto chord detection from audio</div></div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="https://www.e-chords.com/search-chord/${q(s.artist,s.title)}" target="_blank">
+          <span class="link-icon">🎼</span>
+          <div class="link-body"><div class="link-name">E-Chords</div><div class="link-sub">Chords with chord diagrams</div></div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="https://www.azchords.com/search?q=${q(s.artist,s.title)}" target="_blank">
+          <span class="link-icon">🎹</span>
+          <div class="link-body"><div class="link-name">AZ Chords</div><div class="link-sub">Alternative chord versions</div></div>
+          <span class="link-arrow">›</span>
+        </a>
+        ${s.customChordUrl?`<a class="link-row" href="${s.customChordUrl}" target="_blank" style="border-color:var(--accent)">
+          <span class="link-icon">⭐</span>
+          <div class="link-body"><div class="link-name">My Preferred Version</div><div class="link-sub">Custom saved link</div></div>
+          <span class="link-arrow">›</span>
+        </a>`:''}
+      </div>`;
+  }
+
+  // ── TABS TAB ──
+  else if (S.detailTab === 'tabs') {
+    const tabText = s.tabContent || '';
+
+    paneHtml = `
+      <div class="sc">
+        <div class="sc-label">Tab Sources</div>
+        <a class="link-row" href="https://www.songsterr.com/a/wsa/?q=${q(s.artist,s.title)}" target="_blank">
+          <span class="link-icon">🎵</span>
+          <div class="link-body"><div class="link-name">Songsterr</div><div class="link-sub">Interactive tabs with rhythm &amp; playback</div></div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="https://www.ultimate-guitar.com/search.php?search_type=title&value=${q(s.artist,s.title)}&type=tabs" target="_blank">
+          <span class="link-icon">🎸</span>
+          <div class="link-body"><div class="link-name">Ultimate Guitar — Tabs</div><div class="link-sub">Multiple user-submitted tab versions</div></div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="https://www.ultimate-guitar.com/search.php?search_type=title&value=${q(s.artist,s.title)}&type=bass+tabs" target="_blank">
+          <span class="link-icon">🎚️</span>
+          <div class="link-body"><div class="link-name">Ultimate Guitar — Bass Tabs</div><div class="link-sub">Bass tab versions</div></div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="https://www.youtube.com/results?search_query=${q(s.artist,s.title+' guitar tutorial')}" target="_blank">
+          <span class="link-icon">▶️</span>
+          <div class="link-body"><div class="link-name">YouTube Tutorials</div><div class="link-sub">Video lessons &amp; covers</div></div>
+          <span class="link-arrow">›</span>
+        </a>
+        ${s.customTabUrl?`<a class="link-row" href="${s.customTabUrl}" target="_blank" style="border-color:var(--accent)">
+          <span class="link-icon">⭐</span>
+          <div class="link-body"><div class="link-name">My Preferred Tab</div><div class="link-sub">Custom saved link</div></div>
+          <span class="link-arrow">›</span>
+        </a>`:''}
+      </div>
+
+      <div class="sc">
+        <div class="sc-label">My Tab Notes</div>
+        ${tabText
+          ? `<div class="tab-text-box">${tabText}</div>`
+          : `<div class="tab-empty-msg">No tab notes yet.<br>Go to <b>Edit Song</b> → paste your tab from Songsterr or UG.</div>`}
+      </div>`;
+  }
 
   return `
     <div class="header">
       <button class="back-btn" id="back">← Back</button>
     </div>
-    <div class="detail-wrap">
+    <div class="detail-header-block">
       <div class="detail-title">${s.title}</div>
       <div class="detail-artist">${s.artist}</div>
       <div class="detail-badges">
         ${statusBadge(s.status)}
-        ${s.key ? `<span class="badge-key">${s.key}${s.capo ? ' · Capo ' + s.capo : ''}</span>` : ''}
-        ${s.tuning && s.tuning !== 'Standard' ? `<span class="badge-key">${s.tuning}</span>` : ''}
+        ${s.key?`<span class="badge-key">${s.key}${s.capo?' · Capo '+s.capo:''}</span>`:''}
+        ${s.tuning&&s.tuning!=='Standard'?`<span class="badge-key">${s.tuning}</span>`:''}
       </div>
-      <div class="detail-practiced">${practiceLine}</div>
-
-      ${hasChords ? `
-      <div class="section-card">
-        <div class="section-label">Chords &amp; Structure</div>
-        ${s.verse ? `<div class="chord-row"><div class="chord-name">Verse</div><div class="chord-val">${s.verse}</div></div>` : ''}
-        ${s.chorus ? `<div class="chord-row"><div class="chord-name">Chorus</div><div class="chord-val">${s.chorus}</div></div>` : ''}
-        ${s.bridge ? `<div class="chord-row"><div class="chord-name">Bridge</div><div class="chord-val">${s.bridge}</div></div>` : ''}
-        ${s.strumming ? `<div class="chord-row"><div class="chord-name">Strumming / Picking</div><div class="chord-val">${s.strumming}</div></div>` : ''}
-      </div>` : ''}
-
-      <div class="section-card">
-        <div class="section-label">Difficulty</div>
-        <div class="diff-row"><span class="diff-label">🎸 Guitar</span>${dots(s.guitarDiff)}</div>
-        <div class="diff-row"><span class="diff-label">🎤 Vocals</span>${dots(s.vocalDiff)}</div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-label">Resources</div>
-        <a class="link-row" href="${searchUrl('https://www.songsterr.com/a/wsa/?q=', s.artist, s.title)}" target="_blank">
-          <span class="link-icon">🎵</span>
-          <div class="link-label">
-            <div>Songsterr</div>
-            <div class="link-sub">Interactive tabs &amp; rhythm</div>
-          </div>
-          <span class="link-arrow">›</span>
-        </a>
-        <a class="link-row" href="${searchUrl('https://www.ultimate-guitar.com/search.php?search_type=title&value=', s.title, s.artist)}" target="_blank">
-          <span class="link-icon">🎸</span>
-          <div class="link-label">
-            <div>Ultimate Guitar</div>
-            <div class="link-sub">Chords, tabs &amp; strumming</div>
-          </div>
-          <span class="link-arrow">›</span>
-        </a>
-        <a class="link-row" href="${searchUrl('https://www.youtube.com/results?search_query=', s.artist, s.title + ' guitar tutorial')}" target="_blank">
-          <span class="link-icon">▶️</span>
-          <div class="link-label">
-            <div>YouTube</div>
-            <div class="link-sub">Guitar tutorials</div>
-          </div>
-          <span class="link-arrow">›</span>
-        </a>
-      </div>
-
-      ${s.notes ? `
-      <div class="section-card">
-        <div class="section-label">Personal Notes</div>
-        <div class="notes-text">${s.notes}</div>
-      </div>` : ''}
-
-      <button class="action-btn btn-green" id="practiced-btn">✓ Mark as Practiced Today</button>
-      <button class="action-btn btn-secondary" id="edit-btn">Edit Song</button>
-      <button class="action-btn btn-danger" id="delete-btn">Delete Song</button>
-    </div>`;
+    </div>
+    <div class="detail-tabs">${tabBar}</div>
+    <div class="tab-pane">${paneHtml}</div>`;
 }
 
-// ── FORM ──
+// ── FORM ──────────────────────────────────
 function viewForm() {
-  const editing = S.editId ? S.songs.find(s => s.id === S.editId) : null;
+  const editing = S.editId ? S.songs.find(s => s.id===S.editId) : null;
   const s = editing || {};
   const gd = S.formDraft.guitarDiff ?? s.guitarDiff ?? 0;
   const vd = S.formDraft.vocalDiff ?? s.vocalDiff ?? 0;
@@ -453,78 +709,65 @@ function viewForm() {
   return `
     <div class="header">
       <button class="back-btn" id="back">← Back</button>
-      <span class="header-title">${editing ? 'Edit Song' : 'Add Song'}</span>
+      <span class="header-title">${editing?'Edit Song':'Add Song'}</span>
     </div>
     <div class="form-wrap">
+      <div class="form-section-title">Song Info</div>
       <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Title *</label>
-          <input class="form-input" id="f-title" value="${s.title || ''}" placeholder="Song title">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Artist *</label>
-          <input class="form-input" id="f-artist" value="${s.artist || ''}" placeholder="Artist">
-        </div>
+        <div class="form-group"><label class="form-label">Title *</label><input class="form-input" id="f-title" value="${s.title||''}" placeholder="Song title"></div>
+        <div class="form-group"><label class="form-label">Artist *</label><input class="form-input" id="f-artist" value="${s.artist||''}" placeholder="Artist"></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Key</label>
-          <input class="form-input" id="f-key" value="${s.key || ''}" placeholder="e.g. Am, G, E">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Capo</label>
-          <input class="form-input" id="f-capo" value="${s.capo || ''}" placeholder="fret #">
-        </div>
+        <div class="form-group"><label class="form-label">Key</label><input class="form-input" id="f-key" value="${s.key||''}" placeholder="e.g. Am, F#m, G"></div>
+        <div class="form-group"><label class="form-label">Capo</label><input class="form-input" id="f-capo" value="${s.capo||''}" placeholder="fret #"></div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Tuning</label>
-        <input class="form-input" id="f-tuning" value="${s.tuning || 'Standard'}" placeholder="Standard / Drop D / Open G…">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Status</label>
-        <select class="form-select" id="f-status">
-          ${['Not Started','Learning','Can Play','Performance Ready'].map(st =>
-            `<option value="${st}"${(s.status || 'Not Started') === st ? ' selected' : ''}>${st}</option>`
-          ).join('')}
-        </select>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Tuning</label><input class="form-input" id="f-tuning" value="${s.tuning||'Standard'}" placeholder="Standard / Drop D…"></div>
+        <div class="form-group"><label class="form-label">Status</label>
+          <select class="form-select" id="f-status">
+            ${['Not Started','Learning','Can Play','Performance Ready'].map(st=>`<option value="${st}"${(s.status||'Not Started')===st?' selected':''}>${st}</option>`).join('')}
+          </select>
+        </div>
       </div>
 
       <div class="divider"></div>
+      <div class="form-section-title">Chords &amp; Structure</div>
+      <div class="form-group"><label class="form-label">Verse Chords</label><input class="form-input" id="f-verse" value="${s.verse||''}" placeholder="e.g. F#m – D – Bm"></div>
+      <div class="form-group"><label class="form-label">Chorus Chords</label><input class="form-input" id="f-chorus" value="${s.chorus||''}" placeholder="e.g. F#m – D – Bm – A"></div>
+      <div class="form-group"><label class="form-label">Bridge Chords</label><input class="form-input" id="f-bridge" value="${s.bridge||''}" placeholder="Optional"></div>
+      <div class="form-group"><label class="form-label">Strumming / Picking Pattern</label><input class="form-input" id="f-strumming" value="${s.strumming||''}" placeholder="e.g. D-DU-UDU, palm muted riff…"></div>
 
+      <div class="divider"></div>
+      <div class="form-section-title">Difficulty</div>
+      <div class="form-group"><label class="form-label">Guitar</label>${stars('guitarDiff',gd)}</div>
+      <div class="form-group"><label class="form-label">Vocals</label>${stars('vocalDiff',vd)}</div>
+
+      <div class="divider"></div>
+      <div class="form-section-title">Chord Chart</div>
       <div class="form-group">
-        <label class="form-label">Verse Chords</label>
-        <input class="form-input" id="f-verse" value="${s.verse || ''}" placeholder="e.g. Am – F – C – G">
+        <label class="form-label">Paste Chord Chart</label>
+        <textarea class="form-textarea mono" id="f-chordChart" placeholder="Paste from Ultimate Guitar or similar.\n\n[Verse 1]\n    F#m         D           Bm\nI'm a puppet on a string…">${s.chordChart||''}</textarea>
       </div>
       <div class="form-group">
-        <label class="form-label">Chorus Chords</label>
-        <input class="form-input" id="f-chorus" value="${s.chorus || ''}" placeholder="e.g. C – G – Am – F">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Bridge Chords</label>
-        <input class="form-input" id="f-bridge" value="${s.bridge || ''}" placeholder="Optional">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Strumming / Picking Pattern</label>
-        <input class="form-input" id="f-strumming" value="${s.strumming || ''}" placeholder="e.g. D-DU-UDU, fingerpicked arpeggios…">
+        <label class="form-label">Preferred Chord URL (optional)</label>
+        <input class="form-input" id="f-customChordUrl" value="${s.customChordUrl||''}" placeholder="https://ultimate-guitar.com/…">
       </div>
 
       <div class="divider"></div>
-
+      <div class="form-section-title">Tab</div>
       <div class="form-group">
-        <label class="form-label">Guitar Difficulty</label>
-        ${stars('guitarDiff', gd)}
+        <label class="form-label">Paste Tab Text</label>
+        <textarea class="form-textarea mono" id="f-tabContent" placeholder="Paste tab from Songsterr, UG, or your own notes.\ne|--2--2--2--2--|\nB|--2--2--2--2--|\n…">${s.tabContent||''}</textarea>
       </div>
       <div class="form-group">
-        <label class="form-label">Vocal Difficulty</label>
-        ${stars('vocalDiff', vd)}
+        <label class="form-label">Preferred Tab URL (optional)</label>
+        <input class="form-input" id="f-customTabUrl" value="${s.customTabUrl||''}" placeholder="https://songsterr.com/…">
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Personal Notes</label>
-        <textarea class="form-textarea" id="f-notes" placeholder="Trouble spots, gear settings, tips…">${s.notes || ''}</textarea>
-      </div>
+      <div class="divider"></div>
+      <div class="form-group"><label class="form-label">Personal Notes</label><textarea class="form-textarea" id="f-notes" placeholder="Trouble spots, gear settings, tips…">${s.notes||''}</textarea></div>
 
-      <button class="action-btn btn-primary" id="save-btn">${editing ? 'Save Changes' : 'Add Song'}</button>
+      <button class="action-btn btn-primary" id="save-btn">${editing?'Save Changes':'Add Song'}</button>
     </div>`;
 }
 
@@ -533,104 +776,105 @@ function viewForm() {
 // ════════════════════════════════════════════
 function render() {
   document.getElementById('app').innerHTML =
-    S.view === 'list' ? viewList() :
-    S.view === 'detail' ? viewDetail() :
+    S.view==='list' ? viewList() :
+    S.view==='detail' ? viewDetail() :
     viewForm();
   bind();
 }
 
 function bind() {
-  // LIST
+  // ── LIST events ──
   document.querySelectorAll('.song-card').forEach(c =>
-    c.addEventListener('click', () => { S.selectedId = c.dataset.id; S.view = 'detail'; render(); })
+    c.addEventListener('click', () => { S.selectedId=c.dataset.id; S.detailTab='overview'; S.view='detail'; render(); })
   );
   document.querySelectorAll('.chip').forEach(c =>
-    c.addEventListener('click', () => { S.filter = c.dataset.filter; render(); })
+    c.addEventListener('click', () => { S.filter=c.dataset.filter; render(); })
   );
   const si = document.getElementById('search');
-  if (si) si.addEventListener('input', e => { S.search = e.target.value; render(); });
+  if (si) si.addEventListener('input', e => { S.search=e.target.value; render(); });
   document.getElementById('fab')?.addEventListener('click', () => {
-    S.editId = null; S.formDraft = {}; S.view = 'form'; render();
+    S.editId=null; S.formDraft={}; S.view='form'; render();
   });
 
-  // DETAIL
+  // ── DETAIL events ──
+  document.querySelectorAll('.dtab').forEach(t =>
+    t.addEventListener('click', () => { S.detailTab=t.dataset.tab; render(); })
+  );
   document.getElementById('back')?.addEventListener('click', () => {
-    if (S.view === 'form' && S.editId) { S.view = 'detail'; }
-    else { S.view = 'list'; }
-    S.formDraft = {};
-    render();
+    if (S.view==='form' && S.editId) { S.view='detail'; }
+    else { S.view='list'; }
+    S.formDraft={}; render();
   });
   document.getElementById('edit-btn')?.addEventListener('click', () => {
-    S.editId = S.selectedId; S.formDraft = {}; S.view = 'form'; render();
+    S.editId=S.selectedId; S.formDraft={}; S.view='form'; render();
   });
   document.getElementById('practiced-btn')?.addEventListener('click', () => {
-    const s = S.songs.find(x => x.id === S.selectedId);
-    if (s) { s.lastPracticed = new Date().toISOString().split('T')[0]; save(S.songs); render(); }
+    const s = S.songs.find(x => x.id===S.selectedId);
+    if (s) { s.lastPracticed=new Date().toISOString().split('T')[0]; save(S.songs); render(); }
   });
   document.getElementById('delete-btn')?.addEventListener('click', () => {
-    const s = S.songs.find(x => x.id === S.selectedId);
+    const s = S.songs.find(x => x.id===S.selectedId);
     if (s && confirm(`Delete "${s.title}"?`)) {
-      S.songs = S.songs.filter(x => x.id !== S.selectedId);
-      save(S.songs); S.view = 'list'; render();
+      S.songs=S.songs.filter(x => x.id!==S.selectedId);
+      save(S.songs); S.view='list'; render();
     }
   });
 
-  // FORM — star buttons
+  // ── FORM events — stars ──
   document.querySelectorAll('.star').forEach(btn => {
     btn.addEventListener('click', () => {
-      const field = btn.dataset.field;
-      const val = parseInt(btn.dataset.star);
-      S.formDraft[field] = val;
-      document.getElementById(`f-${field}`).value = val;
-      document.querySelectorAll(`.star[data-field="${field}"]`).forEach((b, i) => {
-        b.textContent = i < val ? '★' : '☆';
-        b.classList.toggle('on', i < val);
+      const field=btn.dataset.field, val=parseInt(btn.dataset.star);
+      S.formDraft[field]=val;
+      document.getElementById(`f-${field}`).value=val;
+      document.querySelectorAll(`.star[data-field="${field}"]`).forEach((b,i) => {
+        b.textContent=i<val?'★':'☆'; b.classList.toggle('on',i<val);
       });
     });
   });
 
-  // FORM — save
+  // ── FORM events — save ──
   document.getElementById('save-btn')?.addEventListener('click', () => {
-    const title = document.getElementById('f-title').value.trim();
-    const artist = document.getElementById('f-artist').value.trim();
-    if (!title || !artist) { alert('Title and Artist are required.'); return; }
+    const title=document.getElementById('f-title').value.trim();
+    const artist=document.getElementById('f-artist').value.trim();
+    if (!title||!artist) { alert('Title and Artist are required.'); return; }
 
     const data = {
       title, artist,
       key: document.getElementById('f-key').value.trim(),
       capo: document.getElementById('f-capo').value.trim(),
-      tuning: document.getElementById('f-tuning').value.trim() || 'Standard',
+      tuning: document.getElementById('f-tuning').value.trim()||'Standard',
       status: document.getElementById('f-status').value,
       verse: document.getElementById('f-verse').value.trim(),
       chorus: document.getElementById('f-chorus').value.trim(),
       bridge: document.getElementById('f-bridge').value.trim(),
       strumming: document.getElementById('f-strumming').value.trim(),
-      guitarDiff: parseInt(document.getElementById('f-guitarDiff').value) || 0,
-      vocalDiff: parseInt(document.getElementById('f-vocalDiff').value) || 0,
+      guitarDiff: parseInt(document.getElementById('f-guitarDiff').value)||0,
+      vocalDiff: parseInt(document.getElementById('f-vocalDiff').value)||0,
+      chordChart: document.getElementById('f-chordChart').value,
+      tabContent: document.getElementById('f-tabContent').value,
+      customChordUrl: document.getElementById('f-customChordUrl').value.trim(),
+      customTabUrl: document.getElementById('f-customTabUrl').value.trim(),
       notes: document.getElementById('f-notes').value.trim(),
     };
 
     if (S.editId) {
-      const idx = S.songs.findIndex(s => s.id === S.editId);
-      S.songs[idx] = { ...S.songs[idx], ...data };
-      S.selectedId = S.editId;
-      S.view = 'detail';
+      const idx=S.songs.findIndex(s=>s.id===S.editId);
+      S.songs[idx]={...S.songs[idx],...data};
+      S.selectedId=S.editId; S.view='detail';
     } else {
-      const ns = { id: uid(), lastPracticed: null, ...data };
-      S.songs.push(ns);
-      S.selectedId = ns.id;
-      S.view = 'detail';
+      const ns={id:uid(),lastPracticed:null,...data};
+      S.songs.push(ns); S.selectedId=ns.id; S.view='detail';
     }
-    S.editId = null; S.formDraft = {};
+    S.editId=null; S.formDraft={};
     save(S.songs); render();
   });
 }
 
 // ════════════════════════════════════════════
-//  SERVICE WORKER REGISTRATION
+//  SERVICE WORKER
 // ════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
 
 render();
